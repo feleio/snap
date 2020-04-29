@@ -1,9 +1,10 @@
-package io.fele.snap.game
+package io.fele.snap
+
+import io.fele.snap.game.MatchingRule.{Both, MatchingRule, OnSuit, OnValue}
+import io.fele.snap.game.{Config, EventHandler, EventLogger, Game}
 
 import scala.io.StdIn.readLine
-import scala.util.{Failure, Success, Try}
-import io.fele.snap.game.MatchingRule._
-
+import scala.util.{Success, Try}
 
 object Main extends App {
   var yn = ""
