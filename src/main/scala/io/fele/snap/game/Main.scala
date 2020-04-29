@@ -25,7 +25,7 @@ object Main extends App {
       case Success(1) => OnSuit
       case Success(2) => OnValue
       case Success(3) => Both
-      case Failure(_) => Both // default
+      case _ => Both // default
     }
 
     val config = Config(
