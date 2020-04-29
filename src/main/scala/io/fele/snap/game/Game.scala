@@ -15,6 +15,10 @@ class Game(
     new Player(name = config.player1Name, cards = shuffled.drop(shuffled.size/2)),
   )
 
+  // randomly select a player to start first
+  var curPlayerId: Int = if (Random.nextBoolean()) 0 else 1
+  var pile: List[Card] = Nil
+
   def start(): Unit = ???
 
   private def shouldMatch(pile: List[Card]): Boolean = ???
