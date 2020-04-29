@@ -1,5 +1,6 @@
 package io.fele.snap.game
 
+import io.fele.snap.game.MatchingRule.{Both, OnSuit, OnValue}
 import io.fele.snap.model.{Card, Deck}
 
 import scala.util.Random
@@ -26,5 +27,18 @@ class Game(
     }
   }
 
-  private def shouldMatch(pile: List[Card]): Boolean = ???
+  private def shouldMatch(pile: List[Card]): Boolean = {
+    if (pile.size >= 2) {
+      val topCard: Card = pile.head
+      val secondCard: Card = pile.tail.head
+      config.matchingRule match {
+        case OnSuit =>
+          topCard.suit == secondCard.suit
+        case OnValue =>
+          topCard.value == secondCard.value
+        case Both =>
+          topCard.suit == secondCard.suit && topCard.value == secondCard.value
+      }
+    } else false
+  }
 }
