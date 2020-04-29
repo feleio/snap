@@ -24,6 +24,18 @@ class Game(
     while(players.exists(_.hasMoreCard)) {
       val card: Card = players(curPlayerId).popCard().get
       pile = card :: pile
+
+      if(shouldMatch(pile)) {
+        // randomly select a player who is the first one to shout snap!
+        val fasterPlayerId: Int = if (Random.nextBoolean()) 0 else 1
+        players(fasterPlayerId).addWonCardsCount(pile.size)
+        pile = Nil
+        curPlayerId = if (players(fasterPlayerId).hasMoreCard) fasterPlayerId else (fasterPlayerId + 1) % 2
+      } else {
+        val nextPlayerId: Int = (curPlayerId + 1) % 2
+        if (players(nextPlayerId).hasMoreCard)
+          curPlayerId = nextPlayerId
+      }
     }
   }
 
