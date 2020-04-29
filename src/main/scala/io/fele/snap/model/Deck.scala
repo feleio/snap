@@ -1,7 +1,7 @@
 package io.fele.snap.model
 
-import CardSuit._
-import CardValue._
+import io.fele.snap.model.CardSuit._
+import io.fele.snap.model.CardValue._
 
 object Deck {
   val suites = List(Spade, Heart, Club, Diamond)
