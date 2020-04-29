@@ -1,8 +1,7 @@
 package io.fele.snap.game
 
 import scala.io.StdIn.readLine
-import scala.util.{Success, Try}
-
+import scala.util.{Failure, Success, Try}
 import io.fele.snap.game.MatchingRule._
 
 
@@ -26,6 +25,7 @@ object Main extends App {
       case Success(1) => OnSuit
       case Success(2) => OnValue
       case Success(3) => Both
+      case Failure(_) => Both // default
     }
 
     val config = Config(
