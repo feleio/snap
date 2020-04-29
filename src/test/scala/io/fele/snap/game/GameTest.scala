@@ -37,7 +37,6 @@ class GameTest extends AnyFreeSpec with Matchers{
         }
       }
       println(statistic)
-
     }
   }
 }
