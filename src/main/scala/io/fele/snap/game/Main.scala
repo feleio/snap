@@ -17,7 +17,7 @@ object Main extends App {
       numberOfDecks = Try(readLine().toInt)
     } while(numberOfDecks.isFailure || numberOfDecks.get <= 0)
     do {
-      println("How cards should be matched?:   1)on suit   2)on value   3) both?    Please enter 1, 2 or 3:")
+      println("How cards should be matched? (1)on suit (2)on value (3)both. Please enter 1, 2 or 3:")
       matchRuleOption = Try(readLine().toInt)
     } while(matchRuleOption.isFailure || matchRuleOption.get <= 0 || matchRuleOption.get > 3)
 
