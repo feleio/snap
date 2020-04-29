@@ -32,7 +32,7 @@ class Game(
         // randomly select a player who is the first one to shout snap!
         val fasterPlayerId: Int = if (Random.nextBoolean()) 0 else 1
         players(fasterPlayerId).addWonCardsCount(pile.size)
-        eventHandler.dispatch(Snap(players(fasterPlayerId), card, pile.head, pile.size))
+        eventHandler.dispatch(Snap(players(fasterPlayerId), pile.head, pile.tail.head, pile.size))
         pile = Nil
         curPlayerId = if (players(fasterPlayerId).hasMoreCard) fasterPlayerId else (fasterPlayerId + 1) % 2
       } else {
