@@ -19,7 +19,12 @@ class Game(
   var curPlayerId: Int = if (Random.nextBoolean()) 0 else 1
   var pile: List[Card] = Nil
 
-  def start(): Unit = ???
+  def start(): Unit = {
+    while(players.exists(_.hasMoreCard)) {
+      val card: Card = players(curPlayerId).popCard().get
+      pile = card :: pile
+    }
+  }
 
   private def shouldMatch(pile: List[Card]): Boolean = ???
 }
