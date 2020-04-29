@@ -48,7 +48,7 @@ class Game(
     } else {
       val winner: Player = players.maxBy(_.wonCardsCount)
       val loser: Player = players.minBy(_.wonCardsCount)
-      val event: GameEvent = GameFinishedWithWinner(winner, loser, pile)
+      val event: GameResult = GameFinishedWithWinner(winner, loser, pile)
       eventHandler.dispatch(event)
       event
     }
