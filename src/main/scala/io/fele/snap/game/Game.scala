@@ -1,6 +1,6 @@
 package io.fele.snap.game
 
-import io.fele.snap.game.MatchingRule.{Both, OnSuit, OnValue}
+import io.fele.snap.game.MatchingRule._
 import io.fele.snap.model.{Card, Deck}
 
 import scala.util.Random
@@ -20,7 +20,7 @@ class Game(
   var curPlayerId: Int = if (Random.nextBoolean()) 0 else 1
   var pile: List[Card] = Nil
 
-  def start(): Unit = {
+  def start(): GameResult = {
     while(players.exists(_.hasMoreCard)) {
       val card: Card = players(curPlayerId).popCard().get
       pile = card :: pile
@@ -36,6 +36,14 @@ class Game(
         if (players(nextPlayerId).hasMoreCard)
           curPlayerId = nextPlayerId
       }
+    }
+
+    if (players(0).wonCardsCount == players(1).wonCardsCount)
+      GameFinishedWithDrawGame
+    else {
+      val winner: Player = players.maxBy(_.wonCardsCount)
+      val loser: Player = players.minBy(_.wonCardsCount)
+      GameFinishedWithWinner(winner, loser, pile)
     }
   }
 
