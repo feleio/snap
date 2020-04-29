@@ -6,7 +6,8 @@ import io.fele.snap.model.{Card, Deck}
 import scala.util.Random
 
 class Game(
-  cfg: Config
+  cfg: Config,
+  eventHandler: EventHandler = new DummyEventHandler,
 ) {
   val config: Config = cfg
   val allCards: List[Card] = (1 to config.numberOfDecks).flatMap(_ => Deck.cards).toList
@@ -21,14 +22,17 @@ class Game(
   var pile: List[Card] = Nil
 
   def start(): GameResult = {
+    eventHandler.dispatch(GameStarted(players(curPlayerId)))
     while(players.exists(_.hasMoreCard)) {
       val card: Card = players(curPlayerId).popCard().get
       pile = card :: pile
+      eventHandler.dispatch(PlaceCard(players(curPlayerId), card))
 
       if(shouldMatch(pile)) {
         // randomly select a player who is the first one to shout snap!
         val fasterPlayerId: Int = if (Random.nextBoolean()) 0 else 1
         players(fasterPlayerId).addWonCardsCount(pile.size)
+        eventHandler.dispatch(Snap(players(curPlayerId), card, pile.head, pile.size))
         pile = Nil
         curPlayerId = if (players(fasterPlayerId).hasMoreCard) fasterPlayerId else (fasterPlayerId + 1) % 2
       } else {
@@ -38,12 +42,15 @@ class Game(
       }
     }
 
-    if (players(0).wonCardsCount == players(1).wonCardsCount)
+    if (players(0).wonCardsCount == players(1).wonCardsCount) {
+      eventHandler.dispatch(GameFinishedWithDrawGame)
       GameFinishedWithDrawGame
-    else {
+    } else {
       val winner: Player = players.maxBy(_.wonCardsCount)
       val loser: Player = players.minBy(_.wonCardsCount)
-      GameFinishedWithWinner(winner, loser, pile)
+      val event: GameEvent = GameFinishedWithWinner(winner, loser, pile)
+      eventHandler.dispatch(event)
+      event
     }
   }
 
